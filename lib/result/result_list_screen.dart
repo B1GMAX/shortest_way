@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shortest_way/check_result/check_result_screen.dart';
 import 'package:shortest_way/models/check_result_model.dart';
+
+import 'element_widget.dart';
 
 class ResultListScreen extends StatelessWidget {
   final List<CheckResultModel> finishModeList;
@@ -29,29 +30,9 @@ class ResultListScreen extends StatelessWidget {
       ),
       body: Column(
         children: finishModeList.map((e) {
-          return GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CheckResultScreen(
-                  checkResult: e,
-                ),
-              ),
-            ),
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.black12, width: 1),
-                ),
-              ),
-              child: Center(
-                  child: Text(
-                e.path,
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-              )),
-            ),
+          return ElementWidget(
+            checkResultModel: e,
+            isOneElement: finishModeList.length == 1,
           );
         }).toList(),
       ),
