@@ -22,14 +22,16 @@ class Repository {
   }
 
   Future<ProcessResultModel> sendData(List<FinishModel> finishModelList) async {
-    try {
-      final response = await dio.post(url,
-          data: jsonEncode(finishModelList.map((e) => e.toJson()).toList()));
-      return ProcessResultModel(
-          isErrorOccurred: response.data['error'],
-          message: response.data['message']);
-    } catch (e, s) {
-      print('sendData error - $e; stack - $s');
+    final response = await dio.post(url,
+        data: jsonEncode(finishModelList.map((e) => e.toJson()).toList()));
+   if(response.statusCode == 200) {
+      try {
+        return ProcessResultModel(
+            isErrorOccurred: response.data['error'],
+            message: response.data['message']);
+      } catch (e, s) {
+        print('sendData error - $e; stack - $s');
+      }
     }
     return ProcessResultModel(isErrorOccurred: false, message: '');
   }

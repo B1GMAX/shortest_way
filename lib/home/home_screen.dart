@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shortest_way/process/process_screen.dart';
@@ -27,34 +28,40 @@ class HomeScreen extends StatelessWidget {
             padding:
                 const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 25),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                StreamBuilder<String>(
-                    initialData: '',
-                    stream: context.read<HomeBloc>().errorMessageStream,
-                    builder: (context, snapshot) {
-                      return snapshot.data!.isNotEmpty
-                          ? Column(
-                              children: [
-                                Text(snapshot.data!),
-                                const SizedBox(height: 25),
-                              ],
-                            )
-                          : const SizedBox.shrink();
-                    }),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => context.read<HomeBloc>().setUrl(),
-                      icon: const Icon(Icons.swap_horiz),
-                    ),
-                    const SizedBox(width: 15),
-                    Expanded(
-                      child: TextField(
-                        controller: context.read<HomeBloc>().textController,
+                Expanded(
+                  child: Column(
+                    children: [
+                      StreamBuilder<String>(
+                          initialData: '',
+                          stream: context.read<HomeBloc>().errorMessageStream,
+                          builder: (context, snapshot) {
+                            return snapshot.data!.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      Text(snapshot.data!),
+                                      const SizedBox(height: 25),
+                                    ],
+                                  )
+                                : const SizedBox();
+                          }),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => context.read<HomeBloc>().setUrl(),
+                            icon: const Icon(Icons.swap_horiz),
+                          ),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: TextField(
+                              controller:
+                                  context.read<HomeBloc>().textController,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 50,
@@ -67,7 +74,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      final list = await context.read<HomeBloc>().getData('');
+                      final list = await context.read<HomeBloc>().getData(
+                          context.read<HomeBloc>().textController.text);
                       if (context.mounted && list.isNotEmpty) {
                         Navigator.push(
                           context,

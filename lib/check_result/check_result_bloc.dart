@@ -30,22 +30,19 @@ class CheckResultBloc {
     } else {
       color = Colors.black;
     }
-
-    if (checkResult.start.x == col && checkResult.start.y == row) {
-      color = const Color(0xFF64FFDA);
-    }
-    if (checkResult.end.x == col && checkResult.end.y == row) {
-      color = const Color(0xFF009688);
-    }
-
-    for (final coordinate in coordinates) {
-      if (coordinate.x == col &&
-          coordinate.y == row &&
-          coordinate.x != checkResult.start.x &&
-          coordinate.y != checkResult.start.y &&
-          coordinate.x != checkResult.end.x &&
-          coordinate.y != checkResult.end.y) {
+    for (int i = 0; i < coordinates.length; i++) {
+      if (i != 0 &&
+          i != coordinates.length - 1 &&
+          coordinates[i].x == col &&
+          coordinates[i].y == row) {
         color = const Color(0xFF4CAF50);
+      }
+
+      if (checkResult.start.x == col && checkResult.start.y == row) {
+        color = const Color(0xFF64FFDA);
+      }
+      if (checkResult.end.x == col && checkResult.end.y == row) {
+        color = const Color(0xFF009688);
       }
     }
 
