@@ -38,8 +38,8 @@ class ProcessScreen extends StatelessWidget {
                     const Center(child: CircularProgressIndicator()),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: StreamBuilder<double>(
-                      initialData: 0,
+                    child: StreamBuilder<bool>(
+                      initialData: true,
                       stream: context.read<ProcessBloc>().progressStream,
                       builder: (context, snapshot) {
                         return Column(
@@ -62,7 +62,7 @@ class ProcessScreen extends StatelessWidget {
                                         )
                                       : const SizedBox.shrink();
                                 }),
-                            if (snapshot.data! == 1)
+                            if (!snapshot.data!)
                               SizedBox(
                                 height: 50,
                                 width: double.infinity,

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:shortest_way/models/steps_model.dart';
 import 'calculation_result.dart';
 import 'game_model.dart';
@@ -7,8 +5,9 @@ import 'game_model.dart';
 class Calculations {
 
   CalculationResult calculatePath(
-      GameModel game, VoidCallback calculateProgress) {
+      GameModel game) {
     final List<StepsModel> steps = [];
+
     steps.add(
         StepsModel(x: game.start.x.toString(), y: game.start.y.toString()));
     String path = '';
@@ -16,7 +15,6 @@ class Calculations {
     int currentY = game.start.y;
     path = '($currentX,$currentY)->';
     while (currentX != game.end.x || currentY != game.end.y) {
-      calculateProgress();
       int nextX = currentX;
       int nextY = currentY;
       if (currentX < game.end.x) {

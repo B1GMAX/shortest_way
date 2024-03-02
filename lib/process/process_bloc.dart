@@ -15,7 +15,7 @@ class ProcessBloc {
 
   Repository repository = Repository();
 
-  final _progressController = BehaviorSubject<double>();
+  final _progressController = BehaviorSubject<bool>();
 
   final _checkResultModelListController =
       BehaviorSubject<List<CheckResultModel>>();
@@ -29,7 +29,7 @@ class ProcessBloc {
   Stream<ProcessResultModel> get processResultStream =>
       _processResultController.stream;
 
-  Stream<double> get progressStream => _progressController.stream;
+  Stream<bool> get progressStream => _progressController.stream;
 
   Stream<List<CheckResultModel>> get checkResulModelListStream =>
       _checkResultModelListController.stream;
@@ -42,16 +42,9 @@ class ProcessBloc {
 
   void _findPath() async {
     final List<CheckResultModel> checkResultModelList = [];
-    final double totalProgressSteps = gameModelList.length * 1.5;
+    _progressController.add(true);
     for (final game in gameModelList) {
-      final calculationResult = calculations.calculatePath(game, () async {
-        for (double currentProgress = 0;
-            currentProgress < 1.5;
-            currentProgress += (1 / totalProgressSteps)) {
-          _progressController.add(currentProgress > 1 ? 1 : currentProgress);
-          await Future.delayed(const Duration(milliseconds: 100));
-        }
-      });
+      final calculationResult = calculations.calculatePath(game);
       finishModelList.add(
         FinishModel(
           id: game.id,
@@ -69,6 +62,7 @@ class ProcessBloc {
       ));
     }
     _checkResultModelListController.add(checkResultModelList);
+    _progressController.add(false);
   }
 
   Future<bool> sendResult() async {

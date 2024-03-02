@@ -7,7 +7,7 @@ import 'package:shortest_way/models/procces_result_model.dart';
 class Repository {
   final dio = Dio();
 
-  static String url = 'https://flutter.webspark.dev/flutter/api';
+  static const String url = 'https://flutter.webspark.dev/flutter/api';
 
   Future<GameResultModel?> getFieldsData(String inputUrl) async {
     try {
