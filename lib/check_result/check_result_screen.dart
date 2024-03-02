@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shortest_way/check_result/check_result_bloc.dart';
+import 'package:shortest_way/general_app_bar.dart';
 import 'package:shortest_way/models/check_result_model.dart';
 
 class CheckResultScreen extends StatelessWidget {
@@ -15,24 +16,8 @@ class CheckResultScreen extends StatelessWidget {
       create: (context) => CheckResultBloc(checkResult),
       builder: (context, index) {
         return Scaffold(
-          appBar: AppBar(
-            leading: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                ),
-                const Text(
-                  'Preview Screen',
-                ),
-              ],
-            ),
-            leadingWidth: 200,
+          appBar: const GeneralAppBar(
+            text: 'Preview Screen',
           ),
           body: Column(
             children: [

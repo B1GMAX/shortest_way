@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shortest_way/general_app_bar.dart';
 import 'package:shortest_way/models/check_result_model.dart';
 import 'package:shortest_way/models/game_model.dart';
+import 'package:shortest_way/models/procces_result_model.dart';
 import 'package:shortest_way/process/process_bloc.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shortest_way/process/progress_widget.dart';
 import 'package:shortest_way/result/result_list_screen.dart';
 
 class ProcessScreen extends StatelessWidget {
@@ -22,22 +24,8 @@ class ProcessScreen extends StatelessWidget {
       create: (context) => ProcessBloc(gameList),
       builder: (context, _) {
         return Scaffold(
-          appBar: AppBar(
-            leading: Row(
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  ),
-                ),
-                const Text(
-                  'Process Screen',
-                ),
-              ],
-            ),
-            leadingWidth: 200,
+          appBar: const GeneralAppBar(
+            text: 'Process Screen',
           ),
           body: StreamBuilder<bool>(
             initialData: false,
@@ -56,54 +44,19 @@ class ProcessScreen extends StatelessWidget {
                       builder: (context, snapshot) {
                         return Column(
                           children: [
-                            Expanded(
-                              child: Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        snapshot.data! != 1
-                                            ? 'Calculating...'
-                                            : 'All calculations has finished, you can send your results to server',
-                                        style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      (snapshot.data! * 100).toInt().toString(),
-                                      style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    const SizedBox(height: 25),
-                                    CircularPercentIndicator(
-                                      radius: 100.0,
-                                      lineWidth: 10.0,
-                                      percent: snapshot.data!,
-                                      progressColor: Colors.blue,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            StreamBuilder<String>(
-                                initialData: '',
+                            ProgressWidget(value: snapshot.data!),
+                            StreamBuilder<ProcessResultModel>(
                                 stream: context
                                     .read<ProcessBloc>()
-                                    .processErrorMessageStream,
-                                builder:
-                                    (context, processErrorMessageSnapshot) {
-                                  return processErrorMessageSnapshot
-                                          .data!.isNotEmpty
+                                    .processResultStream,
+                                builder: (context, processResultSnapshot) {
+                                  return processResultSnapshot.hasData &&
+                                          processResultSnapshot
+                                              .data!.isErrorOccurred
                                       ? Column(
                                           children: [
-                                            Text(processErrorMessageSnapshot
-                                                .data!),
+                                            Text(processResultSnapshot
+                                                .data!.message),
                                             const SizedBox(height: 15),
                                           ],
                                         )
@@ -151,7 +104,8 @@ class ProcessScreen extends StatelessWidget {
                                           }
                                         }
                                       },
-                                      child: const Text('Send data'),
+                                      child: const Text(
+                                          'Send result to the server'),
                                     );
                                   },
                                 ),

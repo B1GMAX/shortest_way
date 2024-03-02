@@ -35,7 +35,7 @@ class _ElementWidgetState extends State<ElementWidget> {
               count += 1;
             }),
       child: Container(
-        margin: EdgeInsets.all(count == 1 ? 0 : 10),
+        margin: EdgeInsets.all(count == 1 ? 5 : 10),
         padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           border: const Border(
