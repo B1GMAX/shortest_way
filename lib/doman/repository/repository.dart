@@ -5,13 +5,13 @@ import 'package:shortest_way/models/game_result_model.dart';
 import 'package:shortest_way/models/procces_result_model.dart';
 
 class Repository {
-  final dio = Dio();
+  final _dio = Dio();
 
-  static const String url = 'https://flutter.webspark.dev/flutter/api';
+  static const String _url = 'https://flutter.webspark.dev/flutter/api';
 
   Future<GameResultModel?> getFieldsData(String inputUrl) async {
     try {
-      final response = await dio.get(inputUrl);
+      final response = await _dio.get(inputUrl);
       if (response.statusCode == 200) {
         return GameResultModel.fromJson(response.data);
       } else {
@@ -30,7 +30,7 @@ class Repository {
 
   Future<ProcessResultModel> sendData(List<FinishModel> finishModelList) async {
     try {
-      final response = await dio.post(url,
+      final response = await _dio.post(_url,
           data: jsonEncode(finishModelList.map((e) => e.toJson()).toList()));
       if (response.statusCode == 200) {
         return ProcessResultModel(

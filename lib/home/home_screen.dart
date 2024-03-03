@@ -82,16 +82,16 @@ class HomeScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF40C4FF),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              side: const BorderSide(
+                                color: Color(0xFF448BFF),
+                                width: 2,
                               ),
                             ),
                             onPressed: () async {
-                              final list = await context
-                                  .read<HomeBloc>()
-                                  .getData(context
-                                      .read<HomeBloc>()
-                                      .textController
-                                      .text);
+                              final list =
+                                  await context.read<HomeBloc>().getData();
                               if (context.mounted && list.isNotEmpty) {
                                 Navigator.push(
                                   context,

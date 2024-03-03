@@ -22,7 +22,7 @@ class _ElementWidgetState extends State<ElementWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => widget.isOneElement || count == 2
+      onTap: () => widget.isOneElement || count == 3
           ? Navigator.push(
               context,
               MaterialPageRoute(
@@ -32,7 +32,7 @@ class _ElementWidgetState extends State<ElementWidget> {
               ),
             )
           : setState(() {
-              count += 1;
+              count ++;
             }),
       child: Container(
         margin: EdgeInsets.all(count == 1 ? 5 : 10),

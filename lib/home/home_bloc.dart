@@ -8,7 +8,7 @@ import 'package:shortest_way/models/game_result_model.dart';
 class HomeBloc {
   final textController = TextEditingController();
 
-  Repository repository = Repository();
+  final Repository _repository = Repository();
 
   final _sendDataResultController = BehaviorSubject<GameResultModel>();
 
@@ -19,28 +19,28 @@ class HomeBloc {
   Stream<GameResultModel> get sendDataResultStream =>
       _sendDataResultController.stream;
 
-  String url = '';
+  String _url = '';
 
   HomeBloc() {
     getUrl();
   }
 
   void getUrl() async {
-    url = await Preferences.instance.getUrl();
+    _url = await Preferences.instance.getUrl();
   }
 
   void setUrl() {
-    if (url.isNotEmpty) {
-      textController.text = url;
+    if (_url.isNotEmpty) {
+      textController.text = _url;
     }
   }
 
-  Future<List<GameModel>> getData(String url) async {
+  Future<List<GameModel>> getData() async {
     _sendDataCheckController.add(true);
-    final result = await repository.getFieldsData(url);
+    final result = await _repository.getFieldsData(textController.text);
     _sendDataCheckController.add(false);
     if (result != null) {
-      await Preferences.instance.saveUrl(url);
+      await Preferences.instance.saveUrl(textController.text);
       _sendDataResultController.add(result);
       return result.gameModel;
     }

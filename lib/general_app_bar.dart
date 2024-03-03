@@ -26,8 +26,8 @@ class GeneralAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           if (isHomePage) const SizedBox(width: 15),
-          const Text(
-            'Process Screen',
+          Text(
+            text,
           ),
         ],
       ),

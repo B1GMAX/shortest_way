@@ -38,13 +38,13 @@ class ProcessScreen extends StatelessWidget {
                     const Center(child: CircularProgressIndicator()),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: StreamBuilder<bool>(
-                      initialData: true,
+                    child: StreamBuilder<double>(
+                      initialData: 0,
                       stream: context.read<ProcessBloc>().progressStream,
-                      builder: (context, snapshot) {
+                      builder: (context, progressSnapshot) {
                         return Column(
                           children: [
-                            ProgressWidget(value: snapshot.data!),
+                            ProgressWidget(value: progressSnapshot.data!),
                             StreamBuilder<ProcessResultModel>(
                                 stream: context
                                     .read<ProcessBloc>()
@@ -62,7 +62,7 @@ class ProcessScreen extends StatelessWidget {
                                         )
                                       : const SizedBox.shrink();
                                 }),
-                            if (!snapshot.data!)
+                            if (progressSnapshot.data! == 1)
                               SizedBox(
                                 height: 50,
                                 width: double.infinity,
@@ -79,7 +79,11 @@ class ProcessScreen extends StatelessWidget {
                                             const Color(0xFF40C4FF),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(5.0),
+                                              BorderRadius.circular(10),
+                                        ),
+                                        side: const BorderSide(
+                                          color: Color(0xFF448BFF),
+                                          width: 2,
                                         ),
                                       ),
                                       onPressed: () async {

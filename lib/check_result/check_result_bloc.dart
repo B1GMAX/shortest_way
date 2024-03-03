@@ -3,49 +3,47 @@ import 'package:shortest_way/models/check_result_model.dart';
 import 'package:shortest_way/models/coordinate_model.dart';
 
 class CheckResultBloc {
-  final CheckResultModel checkResult;
+  final CheckResultModel _checkResult;
 
-  CheckResultBloc(this.checkResult) {
+  CheckResultBloc(this._checkResult) {
     _getCoordinates();
   }
 
-  final List<CoordinateModel> coordinates = [];
+  final List<CoordinateModel> _coordinates = [];
 
   void _getCoordinates() {
-    List<String> pairs = checkResult.path.split("->");
+    List<String> pairs = _checkResult.path.split("->");
     for (final pair in pairs) {
       List<String> values =
           pair.replaceAll("(", "").replaceAll(")", "").split(",");
       for (int i = 0; i < values.length; i++) {
-        coordinates.add(
+        _coordinates.add(
             CoordinateModel(x: int.parse(values[0]), y: int.parse(values[1])));
       }
     }
   }
 
   Color getColor(int index, String cell, int row, int col) {
-    Color? color;
-    if (cell == '.') {
-      color = Colors.white;
-    } else {
-      color = Colors.black;
+    if (_checkResult.start.x == col && _checkResult.start.y == row) {
+      return const Color(0xFF64FFDA);
     }
-    for (int i = 0; i < coordinates.length; i++) {
+    if (_checkResult.end.x == col && _checkResult.end.y == row) {
+      return const Color(0xFF009688);
+    }
+
+    if (cell == 'X') {
+      return Colors.black;
+    }
+
+    for (int i = 0; i < _coordinates.length; i++) {
       if (i != 0 &&
-          i != coordinates.length - 1 &&
-          coordinates[i].x == col &&
-          coordinates[i].y == row) {
-        color = const Color(0xFF4CAF50);
-      }
-
-      if (checkResult.start.x == col && checkResult.start.y == row) {
-        color = const Color(0xFF64FFDA);
-      }
-      if (checkResult.end.x == col && checkResult.end.y == row) {
-        color = const Color(0xFF009688);
+          i != _coordinates.length - 1 &&
+          _coordinates[i].x == col &&
+          _coordinates[i].y == row) {
+        return const Color(0xFF4CAF50);
       }
     }
 
-    return color!;
+    return Colors.white;
   }
 }
