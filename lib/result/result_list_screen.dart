@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shortest_way/general_app_bar.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/widgets/general_app_bar.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
 
 import 'element_widget.dart';
 
 class ResultListScreen extends StatelessWidget {
-  final List<CheckResultModel> finishModeList;
+  final List<PreviewResultModel> finishModeList;
 
   const ResultListScreen({required this.finishModeList, super.key});
 
@@ -18,7 +18,7 @@ class ResultListScreen extends StatelessWidget {
       body: Column(
         children: finishModeList.map((e) {
           return ElementWidget(
-            checkResultModel: e,
+            previewResultModel: e,
             isOneElement: finishModeList.length == 1,
           );
         }).toList(),

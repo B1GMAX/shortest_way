@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shortest_way/general_app_bar.dart';
+import 'package:shortest_way/widgets/general_app_bar.dart';
 import 'package:shortest_way/models/game_result_model.dart';
 import 'package:shortest_way/process/process_screen.dart';
 
@@ -52,14 +52,13 @@ class HomeScreen extends StatelessWidget {
                                             const SizedBox(height: 25),
                                           ],
                                         )
-                                      : const SizedBox();
+                                      : const SizedBox.shrink();
                                 },
                               ),
                               Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () =>
-                                        context.read<HomeBloc>().setUrl(),
+                                    onPressed: context.read<HomeBloc>().setUrl,
                                     icon: const Icon(Icons.swap_horiz),
                                   ),
                                   const SizedBox(width: 15),
@@ -90,6 +89,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () async {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               final list =
                                   await context.read<HomeBloc>().getData();
                               if (context.mounted && list.isNotEmpty) {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shortest_way/check_result/check_result_screen.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
+import 'package:shortest_way/preview_result/preview_result_screen.dart';
 
 class ElementWidget extends StatefulWidget {
   final bool isOneElement;
-  final CheckResultModel checkResultModel;
+  final PreviewResultModel previewResultModel;
 
   const ElementWidget({
-    required this.checkResultModel,
+    required this.previewResultModel,
     required this.isOneElement,
     super.key,
   });
@@ -17,35 +17,39 @@ class ElementWidget extends StatefulWidget {
 }
 
 class _ElementWidgetState extends State<ElementWidget> {
-  int count = 1;
+  int _count = 1;
+
+  bool get _countStart => _count == 1;
+
+  bool get _countEnd => _count == 3;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => widget.isOneElement || count == 3
+      onTap: () => widget.isOneElement || _countEnd
           ? Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CheckResultScreen(
-                  checkResult: widget.checkResultModel,
+                builder: (context) => PreviewResultScreen(
+                  previewResult: widget.previewResultModel,
                 ),
               ),
             )
           : setState(() {
-              count ++;
+              _count++;
             }),
       child: Container(
-        margin: EdgeInsets.all(count == 1 ? 5 : 10),
+        margin: EdgeInsets.all(_countStart ? 5 : 10),
         padding: const EdgeInsets.symmetric(vertical: 15),
         decoration: BoxDecoration(
           border: const Border(
             bottom: BorderSide(color: Colors.black12, width: 1),
           ),
-          color: count == 1 ? Colors.black : Colors.transparent,
+          color: _countStart ? Colors.black : Colors.transparent,
         ),
         child: Center(
           child: Text(
-            widget.checkResultModel.path,
+            widget.previewResultModel.path,
             style: const TextStyle(
                 fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
           ),

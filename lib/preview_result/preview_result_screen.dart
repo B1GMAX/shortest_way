@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shortest_way/check_result/check_result_bloc.dart';
-import 'package:shortest_way/general_app_bar.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/widgets/general_app_bar.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
 
-class CheckResultScreen extends StatelessWidget {
-  final CheckResultModel checkResult;
+import 'preview_result_bloc.dart';
 
-  const CheckResultScreen({required this.checkResult, super.key});
+class PreviewResultScreen extends StatelessWidget {
+  final PreviewResultModel previewResult;
+
+  const PreviewResultScreen({required this.previewResult, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Provider<CheckResultBloc>(
+    final height = MediaQuery.of(context).size.height;
+    return Provider<PreviewResultBloc>(
       lazy: false,
-      create: (context) => CheckResultBloc(checkResult),
+      create: (context) => PreviewResultBloc(previewResult),
       builder: (context, index) {
         return Scaffold(
           appBar: const GeneralAppBar(
@@ -22,27 +24,27 @@ class CheckResultScreen extends StatelessWidget {
           body: Column(
             children: [
               SizedBox(
-                height: 340,
+                height: height * 0.481,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: checkResult.field[0].length,
+                    crossAxisCount: previewResult.field[0].length,
                     childAspectRatio: 1.25,
                   ),
                   itemCount:
-                      checkResult.field.length * checkResult.field[0].length,
+                      previewResult.field.length * previewResult.field[0].length,
                   itemBuilder: (context, index) {
-                    int row = index ~/ checkResult.field[0].length;
-                    int col = index % checkResult.field[0].length;
-                    String cell = checkResult.field[row][col];
+                    int row = index ~/ previewResult.field[0].length;
+                    int col = index % previewResult.field[0].length;
+                    String cell = previewResult.field[row][col];
                     final color = context
-                        .read<CheckResultBloc>()
+                        .read<PreviewResultBloc>()
                         .getColor(index, cell, row, col);
 
                     return Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black),
                         color: context
-                            .read<CheckResultBloc>()
+                            .read<PreviewResultBloc>()
                             .getColor(index, cell, row, col),
                       ),
                       child: Center(
@@ -59,7 +61,7 @@ class CheckResultScreen extends StatelessWidget {
                   },
                 ),
               ),
-              Text(checkResult.path),
+              Text(previewResult.path),
             ],
           ),
         );

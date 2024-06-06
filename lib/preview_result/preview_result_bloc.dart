@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
 import 'package:shortest_way/models/coordinate_model.dart';
 
-class CheckResultBloc {
-  final CheckResultModel _checkResult;
+class PreviewResultBloc {
+  final PreviewResultModel _previewResult;
 
-  CheckResultBloc(this._checkResult) {
+  PreviewResultBloc(this._previewResult) {
     _getCoordinates();
   }
 
   final List<CoordinateModel> _coordinates = [];
 
   void _getCoordinates() {
-    List<String> pairs = _checkResult.path.split("->");
+    List<String> pairs = _previewResult.path.split("->");
     for (final pair in pairs) {
       List<String> values =
           pair.replaceAll("(", "").replaceAll(")", "").split(",");
@@ -24,11 +24,11 @@ class CheckResultBloc {
   }
 
   Color getColor(int index, String cell, int row, int col) {
-    if (_checkResult.start.x == col && _checkResult.start.y == row) {
-      return const Color(0xFF64FFDA);
-    }
-    if (_checkResult.end.x == col && _checkResult.end.y == row) {
+    if (_previewResult.start.x == col && _previewResult.start.y == row) {
       return const Color(0xFF009688);
+    }
+    if (_previewResult.end.x == col && _previewResult.end.y == row) {
+      return const Color(0xFF64FFDA);
     }
 
     if (cell == 'X') {

@@ -1,12 +1,12 @@
 import 'coordinate_model.dart';
 
-class CheckResultModel {
+class PreviewResultModel {
   final List<String> field;
   final String path;
   final CoordinateModel start;
   final CoordinateModel end;
 
-  CheckResultModel({
+  PreviewResultModel({
     required this.field,
     required this.path,
     required this.start,

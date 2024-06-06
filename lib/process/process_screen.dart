@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shortest_way/general_app_bar.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/widgets/general_app_bar.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
 import 'package:shortest_way/models/game_model.dart';
 import 'package:shortest_way/models/procces_result_model.dart';
 import 'package:shortest_way/process/process_bloc.dart';
@@ -66,11 +66,11 @@ class ProcessScreen extends StatelessWidget {
                               SizedBox(
                                 height: 50,
                                 width: double.infinity,
-                                child: StreamBuilder<List<CheckResultModel>>(
+                                child: StreamBuilder<List<PreviewResultModel>>(
                                   initialData: const [],
                                   stream: context
                                       .read<ProcessBloc>()
-                                      .checkResulModelListStream,
+                                      .previewResulModelListStream,
                                   builder:
                                       (context, checkResultModelListSnapshot) {
                                     return ElevatedButton(

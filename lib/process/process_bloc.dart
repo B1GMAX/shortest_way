@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shortest_way/doman/repository/repository.dart';
 import 'package:shortest_way/calculations/calculations.dart';
-import 'package:shortest_way/models/check_result_model.dart';
+import 'package:shortest_way/models/preview_result_model.dart';
 import 'package:shortest_way/models/finish_model.dart';
 import 'package:shortest_way/models/game_model.dart';
 import 'package:shortest_way/models/procces_result_model.dart';
@@ -17,8 +17,8 @@ class ProcessBloc {
 
   final _progressController = BehaviorSubject<double>();
 
-  final _checkResultModelListController =
-      BehaviorSubject<List<CheckResultModel>>();
+  final _previewResultModelListController =
+      BehaviorSubject<List<PreviewResultModel>>();
 
   final _sendDataCheckController = BehaviorSubject<bool>();
 
@@ -31,8 +31,8 @@ class ProcessBloc {
 
   Stream<double> get progressStream => _progressController.stream;
 
-  Stream<List<CheckResultModel>> get checkResulModelListStream =>
-      _checkResultModelListController.stream;
+  Stream<List<PreviewResultModel>> get previewResulModelListStream =>
+      _previewResultModelListController.stream;
 
   ProcessBloc(this._gameModelList) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _findPath());
@@ -51,7 +51,7 @@ class ProcessBloc {
   }
 
   void _findPath() async {
-    final List<CheckResultModel> checkResultModelList = [];
+    final List<PreviewResultModel> previewResultModelList = [];
     final double totalSteps = await _calculateTotalSteps();
     int currentStep = 0;
     for (final game in _gameModelList) {
@@ -70,14 +70,14 @@ class ProcessBloc {
           ),
         ),
       );
-      checkResultModelList.add(CheckResultModel(
+      previewResultModelList.add(PreviewResultModel(
         field: game.field,
         path: calculationResult.path,
         start: game.start,
         end: game.end,
       ));
     }
-    _checkResultModelListController.add(checkResultModelList);
+    _previewResultModelListController.add(previewResultModelList);
   }
 
   Future<bool> sendResult() async {
@@ -90,7 +90,7 @@ class ProcessBloc {
 
   void dispose() {
     _progressController.close();
-    _checkResultModelListController.close();
+    _previewResultModelListController.close();
     _sendDataCheckController.close();
     _processResultController.close();
   }

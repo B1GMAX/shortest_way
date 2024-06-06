@@ -17,13 +17,13 @@ class Repository {
       } else {
         return GameResultModel(
             error: true,
-            message: 'Set valid API base URL in order tu continue',
+            message: 'Set valid API base URL in order to continue',
             gameModel: []);
       }
     } catch (e) {
       return GameResultModel(
           error: true,
-          message: 'Set valid API base URL in order tu continue',
+          message: 'Set valid API base URL in order to continue',
           gameModel: []);
     }
   }
